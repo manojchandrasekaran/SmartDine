@@ -1,168 +1,163 @@
-import { useForm } from "react-hook-form";
-import { instance } from "../api";
+import { useForm } from 'react-hook-form';
+import { instance } from '../api';
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { signupSchema } from '@/lib/formschema';
 
 function Signup() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const form = useForm({
+    defaultValues: {
+      ad_city: '',
+      ad_email: '',
+      ad_name: '',
+      ad_password: '',
+      ad_phone_num: '',
+      ho_address: '',
+      ho_name: '',
+    },
+    resolver: yupResolver(signupSchema),
+  });
+
   const onSubmit = async (data) => {
-    const response = await instance.post("/auth/signup", data);
-    console.log("Data=", response);
+    const response = await instance.post('/auth/signup', data);
+    console.log('Data=', response);
   };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-sm p-6 bg-white rounded-2xl shadow-lg">
-        <h2 className="mb-4 text-2xl font-bold text-center text-gray-800">
+    <div className='flex min-h-screen items-center justify-center bg-gray-100'>
+      <div className='w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg'>
+        <h2 className='mb-4 text-center text-2xl font-bold text-gray-800'>
           Sign Up
         </h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <label
-              htmlFor="hotel_name"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-             Hotel Name
-            </label>
-            <input
-              type="text"
-              id="hotel_name"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              placeholder="Enter your Hotel Name"
-              {...register("ho_name", { required: true, minLength: 3 })}
-              aria-invalid={errors.ho_name ? "true" : "false"}
+        <Form {...form}>
+          <form className='space-y-4'>
+            <FormField
+              control={form.control}
+              name='ho_name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Hotel Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Enter your Hotel Name' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors.ho_name?.type === "required" && (
-              <p role="alert">Hotel name is required</p>
-            )}
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="hotel_address"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-              Hotel Address
-            </label>
-            <textarea
-              rows= "3"
-              id="hotel_address"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              placeholder="Enter your Hotel Address"
-              {...register("ho_address", { required: true, minLength: 5 })}
-              aria-invalid={errors.ho_address ? "true" : "false"}
-            ></textarea>
-            {errors.ho_address?.type === "required" && (
-              <p role="alert">Hotel Address is required</p>
-            )}
-          </div>
+            <FormField
+              control={form.control}
+              name='ho_address'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Hotel Address</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      rows='3'
+                      placeholder='Enter your Hotel Address'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='ad_name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>User Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Enter your Name' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='ad_email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email ID</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='email'
+                      placeholder='Enter your Email ID'
+                      {...field}
+                    />
+                  </FormControl>
 
-          <div className="mb-4">
-            <label
-              htmlFor="username"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-              User Name
-            </label>
-            <input
-              type="text"
-              id="username"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              placeholder="Enter your Name"
-              {...register("ad_name", { required: true, minLength: 3 })}
-              aria-invalid={errors.ad_name ? "true" : "false"}
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors.ad_name?.type === "required" && (
-              <p role="alert">User name is required</p>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-              Email ID
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              placeholder="Enter your Email ID"
-              {...register("ad_email", { required: "Email Address is required" })}
-              aria-invalid={errors.ad_email ? "true" : "false"}
+            <FormField
+              control={form.control}
+              name='ad_password'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='password'
+                      placeholder='Enter your Password'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors.ad_email?.type === "required" && (
-              <p role="alert">Email is required</p>
-            )}
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              placeholder="Enter your Password"
-              {...register("ad_password", { required: "Password is required" })}
-              aria-invalid={errors.ad_password ? "true" : "false"}
+            <FormField
+              control={form.control}
+              name='ad_city'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Enter your city' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors.ad_password && <p role="alert">{errors.ad_password?.message}</p>}
-          </div>
-          
-
-          <div className="mb-4">
-            <label
-              htmlFor="City"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-              City
-            </label>
-            <input
-              type="text"
-              id="city"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              placeholder="Enter your city"
-              {...register("ad_city")}
+            <FormField
+              control={form.control}
+              name='ad_phone_num'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='tel'
+                      placeholder='eg: 9XXXXX XXXXX'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="phoneNum"
-              className="block mb-2 text-sm font-medium text-gray-700"
+            <Button
+              type='submit'
+              className='w-full'
+              onClick={form.handleSubmit(onSubmit)}
             >
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              id="phoneNum"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              placeholder="eg: 9XXXXX XXXXX"
-              {...register("ad_phone_num", {
-                required: "Phone Number is required",
-                validate: (value) => {
-                  const val = new RegExp(/^[6-9][0-9]{9}$/).test(value);
-                  if (!val) {
-                    return "Phone Number is invalid";
-                  }
-                },
-              })}
-              aria-invalid={errors.ad_phone_num ? "true" : "false"}
-            />
-            {errors.ad_phone_num && <p role="alert">{errors.ad_phone_num?.message}</p>}
-          </div>
-
-          <button
-            type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none"
-          >
-            Submit
-          </button>
-        </form>
+              Submit
+            </Button>
+          </form>
+        </Form>
       </div>
     </div>
   );

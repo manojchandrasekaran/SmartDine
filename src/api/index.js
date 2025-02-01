@@ -1,6 +1,19 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const instance = axios.create({
-    baseURL: 'http://localhost:5000'
-  });
+console.log(import.meta.env.VITE_API_URL);
 
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+});
+
+instance.interceptors.request.use(
+  async (config) => {
+    config.withCredentials = true; // To send cookie in request
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  }
+);
+
+export { instance };

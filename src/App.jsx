@@ -1,14 +1,18 @@
-// import './App.css'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 function App() {
-  
-
   return (
-    <>
-      <h1>Smart Restaurant Food ordering System is under construction...</h1>
-      <h1>Will be serving you very soon!</h1>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<App />}></Route>
+        <Route path='/login' index element={<Login />}></Route>
+        <Route path='/signup' element={<Signup />}></Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
