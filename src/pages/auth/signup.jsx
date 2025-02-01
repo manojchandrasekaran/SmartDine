@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { instance } from '../api';
+import { instance } from '../../api';
 import { Button } from '@/components/ui/button';
 import {
   Form,
