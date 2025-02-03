@@ -2,6 +2,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { instance } from './api';
 
 // import { useEffect } from 'react';
 // import { Loader2 } from 'lucide-react';
@@ -12,14 +13,21 @@ const ProtectedRoute = ({ isPublic, allowedRoles = '' }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // if (!user) {
-    //       //fetch user
-    //     }
+    if (!user) {
+      fetchUser();
+    }
     //  API call to check authentication
-    setTimeout(() => {
-      setIsAuthenticated(false);
-      setUser({ id: 1, name: 'John Doe' });
-    }, 2000);
+    async function fetchUser() {
+      try {
+        const response = await instance.get('/auth/getme');
+        setIsAuthenticated(false);
+        setUser(response.data);
+      } catch (e) {
+        setIsAuthenticated(false);
+        console.log(e);
+        setUser(null);
+      }
+    }
   }, []);
 
   if (isAuthenticated) {
@@ -31,11 +39,11 @@ const ProtectedRoute = ({ isPublic, allowedRoles = '' }) => {
   }
   if (isPublic) {
     if (user) {
-      if (user.id === 1) {
+      if (user.loggedAs === 'admin') {
         return <Navigate to='/admin' replace />;
-      } else if (user.id === 2) {
+      } else if (user.loggedAs === 'chef') {
         return <Navigate to='/chef' replace />;
-      } else if (user.id === 3) {
+      } else if (user.loggedAs === 'table') {
         return <Navigate to='/table' replace />;
       }
     } else {
@@ -44,11 +52,11 @@ const ProtectedRoute = ({ isPublic, allowedRoles = '' }) => {
   }
 
   if (user) {
-    if (user.id === 1 && allowedRoles === 'admin') {
+    if (user.loggedAs === 'admin' && allowedRoles === 'admin') {
       return <Outlet />;
-    } else if (user.id === 2 && allowedRoles === 'chef') {
+    } else if (user.loggedAs === 'chef' && allowedRoles === 'chef') {
       return <Outlet />;
-    } else if (user.id === 3 && allowedRoles === 'table') {
+    } else if (user.loggedAs === 'table' && allowedRoles === 'table') {
       return <Outlet />;
     } else {
       return (

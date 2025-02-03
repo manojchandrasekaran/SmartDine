@@ -1,8 +1,10 @@
 const AdminDashboard = () => {
   return (
-    <div className='text-white'>
-      <h1>Admin Dashboard</h1>
-      <p>Welcome to the admin dashboard!</p>
+    <div className='grid h-full place-items-center text-white'>
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p>Welcome to the admin dashboard!</p>
+      </div>
     </div>
   );
 };

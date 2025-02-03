@@ -1,8 +1,10 @@
 const TableDashboard = () => {
   return (
-    <div>
-      <h1>Table Dashboard</h1>
-      <p>Welcome to the table dashboard!</p>
+    <div className='grid h-full place-items-center'>
+      <div>
+        <h1>Table Dashboard</h1>
+        <p>Welcome to the table dashboard!</p>
+      </div>
     </div>
   );
 };
