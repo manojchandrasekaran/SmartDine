@@ -19,6 +19,7 @@ function App() {
             element={<ProtectedRoute allowedRoles='admin' />}
           >
             <Route path='*' element={<AdminRoutes />} />
+            
           </Route>
           <Route
             path='/chef/*'
