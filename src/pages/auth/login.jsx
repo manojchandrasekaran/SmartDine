@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { instance } from '../api';
-import { Button } from '../components/ui/button';
+import { instance } from '../../api';
+import { Button } from '../../components/ui/button';
 import {
   Form,
   FormControl,
@@ -10,8 +10,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../components/ui/form';
-import { Input } from '../components/ui/input';
+} from '../../components/ui/form';
+import { Input } from '../../components/ui/input';
 import { loginSchema } from '@/lib/formschema';
 
 function Login() {
